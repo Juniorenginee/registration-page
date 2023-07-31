@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--AAYUSH KUMAR SINGH-->
+  <!--LGM TASK 3-->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f1f1f1;
+      background-image: linear-gradient(to bottom, #4a90e2, #4472c4);
+      background-size: cover;
+    }
+
+    .container {
+      display: flex;
+      max-width: 800px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .form-container {
+      flex: 1;
+      padding: 30px;
+    }
+
+    .data-container {
+      flex: 1;
+      background-color: #f9f9f9;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-input {
+      margin-bottom: 15px;
+    }
+
+    .data-list {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+
+    .data-item {
+      margin: 10px;
+      width: 300px;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+    }
+
+    .data-item p {
+      margin: 5px 0;
+    }
+
+    .photo-preview {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+    }
+
+    h2 {
+      color: #4a90e2;
+    }
+
+    .form-input label {
+      display: block;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .form-input input[type="text"],
+    .form-input input[type="email"],
+    .form-input button[type="submit"],
+    .form-input input[type="file"],
+    .form-input select,
+    .form-input textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-input input[type="text"]:focus,
+    .form-input input[type="email"]:focus,
+    .form-input button[type="submit"]:focus,
+    .form-input input[type="file"]:focus,
+    .form-input select:focus,
+    .form-input textarea:focus {
+      outline: none;
+      border-color: #4a90e2;
+    }
+
+    .form-input button[type="submit"] {
+      background-color: #4a90e2;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-input button[type="submit"]:hover {
+      background-color: #4472c4;
+    }
+
+    /* Background Animation */
+    .background-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://via.placeholder.com/800x600');  
+      background-size: cover;
+      opacity: 0.5;
+      z-index: -1;
+      animation: backgroundAnimation 30s infinite linear;
+    }
+
+    @keyframes backgroundAnimation {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 100% 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="background-overlay"></div>
+  <div class="container">
+    <div class="form-container">
+      <h2>Registration Form</h2>
+      <form id="registrationForm">
+        <div class="form-input">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-input">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-input">
+          <label for="photo">Upload Photo:</label>
+          <input type="file" id="photo" name="photo" accept="image/*" required>
+        </div>
+        <div class="form-input">
+          <label for="gender">Gender:</label>
+          <select id="gender" name="gender" required>
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-input">
+          <label for="skills">Skills:</label>
+          <textarea id="skills" name="skills" rows="4" required></textarea>
+        </div>
+        <div class="form-input">
+          <label for="website">Website:</label>
+          <input type="text" id="website" name="website">
+        </div>
+        <div class="form-input">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+    <div class="data-container">
+      <h2>Registered Data</h2>
+      <ul class="data-list" id="dataList"></ul>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('registrationForm');
+    const dataList = document.getElementById('dataList');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const photo = document.getElementById('photo').files[0];
+      const gender = document.getElementById('gender').value;
+      const skills = document.getElementById('skills').value;
+      const website = document.getElementById('website').value;
+
+      const reader = new FileReader();
+      reader.readAsDataURL(photo);
+      reader.onload = function() {
+        const photoData = reader.result;
+
+        const listItem = document.createElement('li');
+        listItem.classList.add('data-item');
+        listItem.innerHTML = `
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Gender:</strong> ${gender}</p>
+          <p><strong>Skills:</strong> ${skills}</p>
+          <p><strong>Website:</strong> <a href="${website}" target="_blank">${website}</a></p>
+          <img class="photo-preview" src="${photoData}" alt="Uploaded Photo">
+        `;
+
+        dataList.appendChild(listItem);
+
+        form.reset();
+      };
+    });
+  </script>
+</body>
+</html>
+
